@@ -21,8 +21,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ENABLE_SILK = False
-print("SSSSSSSSSSSSSSSSEEEEEEEEEE", os.environ.get("ENABLE_SILK"))
+ENABLE_SILK = True
 
 ALLOWED_HOSTS = []
 
