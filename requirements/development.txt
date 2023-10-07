@@ -1,0 +1,10 @@
+asgiref==3.7.2
+autopep8==2.0.4
+Django==4.2.6
+django-silk==5.0.4
+djangorestframework==3.14.0
+gprof2dot==2022.7.29
+psycopg2-binary==2.9.9
+pycodestyle==2.11.0
+pytz==2023.3.post1
+sqlparse==0.4.4
