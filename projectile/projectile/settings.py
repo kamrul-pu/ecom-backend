@@ -51,6 +51,7 @@ PROJECT_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "rest_framework_simplejwt",
     "versatileimagefield",
 ]
 
@@ -218,3 +219,9 @@ VERSATILEIMAGEFIELD_SETTINGS = {
 #         ("headshot_small", "crop__150x175"),
 #     ],
 # }
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
