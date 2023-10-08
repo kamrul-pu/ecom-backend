@@ -53,3 +53,28 @@ class UserListSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "uid",
+            "slug",
+            "full_name",
+            "email",
+            "phone_number",
+            "image",
+            "gender",
+            "image",
+            "kind",
+            "status",
+        )
+        read_only_fields = (
+            "id",
+            "uid",
+            "slug",
+            "kind",
+            "status",
+        )
