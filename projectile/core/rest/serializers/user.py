@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
+
 from rest_framework import serializers
 
 from rest_framework.exceptions import APIException
-from django.contrib.auth import get_user_model
+
+from core.utils import is_valid_bangladeshi_number
 
 User = get_user_model()
 
@@ -36,6 +39,11 @@ class UserListSerializer(serializers.ModelSerializer):
             "id",
             "uid",
         )
+
+    def validate_phone_number(self, value):
+        if value and not is_valid_bangladeshi_number(value):
+            raise APIException({"Phone number is invalid"})
+        return value
 
     def validate_password(self, value):
         confirm_password = self.initial_data.get("confirm_password", "")
@@ -78,3 +86,10 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
             "kind",
             "status",
         )
+
+    def validate_phone_number(self, value):
+        if value and not is_valid_bangladeshi_number(value):
+            raise APIException(
+                {"detail": "Invalid, This is not a Bangladeshi Phone Number."}
+            )
+        return value
