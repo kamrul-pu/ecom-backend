@@ -15,7 +15,19 @@ class UserAdmin(BaseUserAdmin):
     ordering = ["-id"]
     list_display = ["id", "uid", "phone_number", "email", "full_name", "kind", "status"]
     fieldsets = (
-        (None, {"fields": ("phone_number", "password", "full_name", "kind", "status")}),
+        (
+            None,
+            {
+                "fields": (
+                    "phone_number",
+                    "password",
+                    "full_name",
+                    "image",
+                    "kind",
+                    "status",
+                )
+            },
+        ),
         (
             _("Permissions"),
             {
@@ -40,6 +52,7 @@ class UserAdmin(BaseUserAdmin):
                     "password1",
                     "password2",
                     "full_name",
+                    "image",
                     "kind",
                     "status",
                     "is_active",
