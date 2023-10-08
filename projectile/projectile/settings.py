@@ -51,6 +51,7 @@ PROJECT_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "rest_framework_simplejwt",
     "versatileimagefield",
 ]
 
@@ -218,3 +219,22 @@ VERSATILEIMAGEFIELD_SETTINGS = {
 #         ("headshot_small", "crop__150x175"),
 #     ],
 # }
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    # "TEST_REQUEST_RENDERER_CLASSES": [
+    #     "rest_framework.renderers.MultiPartRenderer",
+    #     "rest_framework.renderers.JSONRenderer",
+    # ],
+    "DEFAULT_THROTTLE_RATES": {"anon": "3000/minute", "user": "1200/minute"},
+    # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 40,
+}
