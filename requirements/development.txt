@@ -3,6 +3,7 @@ autopep8==2.0.4
 Django==4.2.6
 django-autoslug==1.9.9
 django-dotenv==1.4.2
+django-filter==23.3
 django-silk==5.0.4
 django-versatileimagefield==3.0
 djangorestframework==3.14.0
