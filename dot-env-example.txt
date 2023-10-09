@@ -1,0 +1,5 @@
+SECRET_KEY = django-insecure-j$e23*t(!x)-c@3mh6qugu^f)4&d_vt06xonlu77$ukk5o&r3r
+ENABLE_SILK = True
+MASTER_DATABASE_URL = 
+REDIS_SERVER_IP = 
+REDIS_SERVER_PORT = 
