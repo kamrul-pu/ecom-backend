@@ -233,7 +233,7 @@ REST_FRAMEWORK = {
     #     "rest_framework.renderers.MultiPartRenderer",
     #     "rest_framework.renderers.JSONRenderer",
     # ],
-    "DEFAULT_THROTTLE_RATES": {"anon": "3000/minute", "user": "1200/minute"},
+    "DEFAULT_THROTTLE_RATES": {"anon": "300/minute", "user": "1200/minute"},
     # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 40,
