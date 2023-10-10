@@ -2,7 +2,7 @@
 Our apps custom permissions will be added here.
 """
 
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 from core.choices import UserKind
 
@@ -16,7 +16,7 @@ class IsUserKind(BasePermission):
 
     def has_permission(self, request, view):
         user = request.user
-        return user.kind == self.allowed_user_kind
+        return user.is_authenticated and user.kind == self.allowed_user_kind
 
 
 class IsSuperAdmin(IsUserKind):
@@ -47,6 +47,21 @@ class IsCustomer(IsUserKind):
 class IsBuyer(IsUserKind):
     def __init__(self):
         super().__init__(UserKind.BUYER)
+
+
+class IsAutenticatedOrReadOnly(IsUserKind):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS or (
+            request.user.is_authenticated and super().has_permission(request, view)
+        ):
+            return True
+        return False
+
+    def has_object_permission(self, request, view, obj):
+        return request.method in SAFE_METHODS or (
+            request.user.is_authenticated
+            and super().has_object_permission(request, view, obj)
+        )
 
 
 # class IsSuperAdmin(BasePermission):
