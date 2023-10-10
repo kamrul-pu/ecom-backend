@@ -54,6 +54,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "versatileimagefield",
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 if ENABLE_SILK:

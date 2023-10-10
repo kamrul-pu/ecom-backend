@@ -21,6 +21,8 @@ urlpatterns = [
     path("api/v1/token", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/v1/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/v1/token/verify", TokenVerifyView.as_view(), name="token_verify"),
+    # Product related urls
+    path("api/v1/product", include("product.rest.urls.base"), name="product-base-urls"),
 ]
 
 if settings.DEBUG:
