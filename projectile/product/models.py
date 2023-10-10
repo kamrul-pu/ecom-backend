@@ -27,6 +27,9 @@ class Category(NameSlugDescriptionBaseModel):
         verbose_name = "Category"
         verbose_name_plural = "Categories"
 
+    def __str__(self) -> str:
+        return f"{self.name} {self.slug}"
+
 
 class Brand(NameSlugDescriptionBaseModel):
     image = VersatileImageField(
@@ -56,6 +59,9 @@ class Brand(NameSlugDescriptionBaseModel):
         verbose_name = "Brand"
         verbose_name_plural = "Brands"
 
+    def __str__(self) -> str:
+        return f"{self.name} {self.origin}"
+
 
 class Manufacturer(NameSlugDescriptionBaseModel):
     origin = models.CharField(
@@ -84,6 +90,9 @@ class Manufacturer(NameSlugDescriptionBaseModel):
     class Meta:
         verbose_name = "Product Manufacturer"
         verbose_name_plural = "Product Manufacturer"
+
+    def __str__(self) -> str:
+        return f"{self.name} {self.origin}"
 
 
 class Product(NameSlugDescriptionBaseModel):
@@ -162,3 +171,6 @@ class Product(NameSlugDescriptionBaseModel):
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
+
+    def __str__(self) -> str:
+        return f"{self.name} {self.mrp}"
