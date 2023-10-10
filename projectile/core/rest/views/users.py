@@ -7,7 +7,6 @@ from rest_framework.permissions import (
 )
 
 from core.models import User
-
 from core.rest.serializers.user import (
     UserListSerializer,
 )

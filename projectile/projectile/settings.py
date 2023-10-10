@@ -239,3 +239,12 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 40,
 }
+
+VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
+    "product_images": [
+        ("full_size", "url"),
+        ("small", "thumbnail__400x400"),
+        ("medium", "thumbnail__600x600"),
+        ("large", "thumbnail__1000x1000"),
+    ],
+}
