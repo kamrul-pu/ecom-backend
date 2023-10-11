@@ -5,7 +5,7 @@ from core.models import User
 from . import payloads, urlhelpers
 
 
-class UserListCreateAPITest(APITestCase):
+class UserAPITest(APITestCase):
     def setUp(self):
         # Set up a test client
         self.client = APIClient()
