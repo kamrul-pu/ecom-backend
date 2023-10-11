@@ -8,5 +8,5 @@ from product.rest.views.manufacturer import (
 
 urlpatterns = [
     path("", ManufacturerList.as_view(), name="manufacturer-list-create"),
-    path("/<uuid:uid>", ManufacturerDetail.as_view(), name="manufacturer-detail"),
+    path("/<uuid:uid>", ManufacturerDetail.as_view(), name="manufacturer-details"),
 ]

@@ -2,12 +2,10 @@
 
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
 from core.permissions import (
     IsAdminUser,
     IsSuperAdmin,
-    IsAutenticatedOrReadOnly,
+    IsAuthenticatedOrReadOnly,
 )
 
 from product.models import Manufacturer

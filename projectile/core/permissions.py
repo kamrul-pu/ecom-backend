@@ -49,18 +49,16 @@ class IsBuyer(IsUserKind):
         super().__init__(UserKind.BUYER)
 
 
-class IsAutenticatedOrReadOnly(IsUserKind):
-    def has_permission(self, request, view):
-        if request.method in SAFE_METHODS or (
-            request.user.is_authenticated and super().has_permission(request, view)
-        ):
-            return True
-        return False
+class IsAuthenticatedOrReadOnly(BasePermission):
+    """
+    The request is authenticated as a user, or is a read-only request.
+    """
 
-    def has_object_permission(self, request, view, obj):
-        return request.method in SAFE_METHODS or (
-            request.user.is_authenticated
-            and super().has_object_permission(request, view, obj)
+    def has_permission(self, request, view):
+        return bool(
+            request.method in SAFE_METHODS
+            or request.user
+            and request.user.is_authenticated
         )
 
 
