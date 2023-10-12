@@ -8,4 +8,5 @@ urlpatterns = [
     ),
     path("/brands", include("product.rest.urls.brand"), name="brand"),
     path("/categories", include("product.rest.urls.category"), name="category"),
+    path("/products", include("product.rest.urls.product"), name="product"),
 ]
