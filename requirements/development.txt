@@ -16,3 +16,4 @@ PyJWT==2.8.0
 python-magic==0.4.27
 pytz==2023.3.post1
 sqlparse==0.4.4
+Faker==19.9.0
