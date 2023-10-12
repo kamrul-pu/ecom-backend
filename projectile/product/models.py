@@ -128,7 +128,7 @@ class Product(NameSlugDescriptionBaseModel):
         default=0.00,
     )
 
-    discounted = models.DecimalField(
+    discount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0.00,

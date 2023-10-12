@@ -18,7 +18,7 @@ class ProductBaseSerializer(serializers.ModelSerializer):
             "manufacturer",
             "buying_price",
             "mrp",
-            "discounted",
+            "discount",
             "discounted_price",
             "stock",
             "is_published",
@@ -41,6 +41,9 @@ class ProductListSerializer(ProductBaseSerializer):
     def create(self, validated_data):
         user = self.context.get("request").user
         validated_data["entry_by_id"] = user.id
+        validated_data["discounted_price"] = validated_data.get(
+            "mrp", 0.0
+        ) - validated_data.get("discount", 0.0)
         return super().create(validated_data)
 
 
