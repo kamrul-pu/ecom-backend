@@ -57,6 +57,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "versatileimagefield",
     "django_cleanup.apps.CleanupConfig",
+    "django_filters",
 ]
 
 if ENABLE_SILK:
@@ -225,6 +226,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     # "TEST_REQUEST_RENDERER_CLASSES": [
     #     "rest_framework.renderers.MultiPartRenderer",
     #     "rest_framework.renderers.JSONRenderer",
