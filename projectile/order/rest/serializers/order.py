@@ -43,3 +43,40 @@ class OrderListSerializer(OrderBaseSerializer):
         user = self.context.get("request").user
         validated_data["entry_by_id"] = user.id
         return super().create(validated_data)
+
+
+class AdminOrderListSerializer(OrderBaseSerializer):
+    class Meta(OrderBaseSerializer.Meta):
+        fields = OrderBaseSerializer.Meta.fields + (
+            "complete",
+            "order_total",
+            "additional_discount",
+            "grand_total",
+        )
+        read_only_fields = OrderBaseSerializer.Meta.read_only_fields + (
+            "order_total",
+            "additional_discount",
+            "grand_total",
+        )
+
+
+class AdminOrderDetailSerializer(OrderBaseSerializer):
+    order_items = OrderItemListSerializer(read_only=True, many=True)
+
+    class Meta(OrderBaseSerializer.Meta):
+        fields = OrderBaseSerializer.Meta.fields + (
+            "order_items",
+            "complete",
+            "order_total",
+            "additional_discount",
+            "grand_total",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = OrderBaseSerializer.Meta.read_only_fields + (
+            "order_total",
+            "additional_discount",
+            "grand_total",
+            "created_at",
+            "updated_at",
+        )
