@@ -33,12 +33,23 @@ def calculate_cart_total(cart):
 @transaction.atomic
 def update_cart(cart_items, user):
     product_quantity_dict = {
-        item["product_id"]: item["quantity"] for item in cart_items
+        item["product_id"]: item["quantity"]
+        for item in cart_items
+        if item["quantity"] > 0
     }
     product_ids = product_quantity_dict.keys()
     # Fetch all relevent product in a single query
-    products = Product().get_all_actives().filter(id__in=product_ids)
-    print("products", products)
+    products = (
+        Product()
+        .get_all_actives()
+        .filter(id__in=product_ids)
+        .only(
+            "id",
+            "name",
+            "discounted_price",
+        )
+    )
+
     cart, created = Order.objects.get_or_create(
         customer_id=user.id,
         order_type=OrderType.CART,
@@ -48,20 +59,9 @@ def update_cart(cart_items, user):
     cart_items_to_create = []
     cart_items_to_update = []
 
-    # Get all existing cart items
-    existing_cart_items = (
-        OrderItem()
-        .get_all_actives()
-        .filter(
-            order_id=cart.id,
-        )
-    )
-    existing_cart_items_dict = {
-        (cart_item.order_id, cart_item.product_id): cart_item
-        for cart_item in existing_cart_items
-    }
-    print("eeeeeeeeeeeee", existing_cart_items_dict)
-
+    # Delete All existing cart items
+    OrderItem().get_all_actives().filter(order_id=cart.id).delete()
+    cart_total = 0
     for product in products:
         quantity = product_quantity_dict.get(product.id)
         price = product.discounted_price
@@ -74,35 +74,18 @@ def update_cart(cart_items, user):
             "price": price,
             "total": total,
         }
-        existing_cart_item = existing_cart_items_dict.get((cart.id, product.id))
-        if existing_cart_item:
-            # Update existing cart item if it already exists
-            existing_cart_item.quantity = quantity
-            existing_cart_item.price = price
-            existing_cart_item.total = total
-            cart_items_to_update.append(existing_cart_item)
-            print("qunatity", quantity)
-            if quantity < 1:
-                items_to_be_removed.append(existing_cart_item.id)
-        else:
-            # Append to the list of cart items to create
-            cart_items_to_create.append(OrderItem(**cart_items_data))
+        cart_total += total
+        cart_items_to_create.append(OrderItem(**cart_items_data))
+
     # Use bulk_create to insert all new cart items in a single query
     if cart_items_to_create:
         OrderItem.objects.bulk_create(cart_items_to_create)
 
-    # Use bulk_update to update existing cart items in a single query
-    if cart_items_to_update:
-        OrderItem.objects.bulk_update(
-            cart_items_to_update, fields=["quantity", "price", "total"]
-        )
-    print("items to be remove")
-    print(items_to_be_removed)
-    # Remove cart items from the cart
-    OrderItem.objects.filter(id__in=items_to_be_removed).delete()
-
     # Calculate Cart total
-    calculate_cart_total(cart)
+    # calculate_cart_total(cart)
+    cart.order_total = cart_total
+    cart.grand_total = cart_total - cart.additional_discount
+    cart.save(update_fields=["order_total", "grand_total"])
 
     return {
         "cart": cart,

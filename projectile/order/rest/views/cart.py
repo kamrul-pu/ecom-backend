@@ -41,18 +41,12 @@ class UpdateCart(APIView):
         cart_items = request.data.get("cart_items", [])
         user = request.user
         if cart_items:
-            cart, created = Order.objects.get_or_create(
-                customer_id=user.id,
-                order_type=OrderType.CART,
-                status=Status.ACTIVE,
-            )
-            cart, cart_items = update_cart(cart_items, user)
-            print(cart)
-            print(cart_items)
+            cart = update_cart(cart_items, user)
             return Response(
-                {"detail": "Somethings in the cart", "cart": cart_items},
+                {"detail": "Cart Updated Successfully"},
                 status=status.HTTP_200_OK,
             )
         return Response(
-            {"detail": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            {"detail": "To Update cart cart items are required"},
+            status=status.HTTP_400_BAD_REQUEST,
         )
