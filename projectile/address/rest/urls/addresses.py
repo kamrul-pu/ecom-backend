@@ -1,4 +1,4 @@
-"""Product related base urls."""
+"""Address app main urls."""
 from django.urls import path
 from address.rest.views.addresses import DivisionList, DivisionDetail
 
