@@ -64,3 +64,17 @@ class NameSlugDescriptionBaseModel(BaseModelWithUID):
 
     class Meta:
         abstract = True
+
+
+class NameLocationBaseModel(BaseModelWithUID):
+    name = models.CharField(max_length=255)
+    bengali_name = models.CharField(max_length=255, blank=True)
+    latitude = models.DecimalField(
+        max_digits=20, decimal_places=15, null=True, blank=True
+    )
+    longitude = models.DecimalField(
+        max_digits=20, decimal_places=15, null=True, blank=True
+    )
+
+    class Meta:
+        abstract = True
