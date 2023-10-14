@@ -7,9 +7,6 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 from core.choices import UserKind
 
 
-from rest_framework.permissions import BasePermission
-
-
 class IsUserKind(BasePermission):
     def __init__(self, allowed_user_kind):
         self.allowed_user_kind = allowed_user_kind
