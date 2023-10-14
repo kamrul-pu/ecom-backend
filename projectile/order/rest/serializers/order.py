@@ -32,7 +32,12 @@ class OrderListSerializer(OrderBaseSerializer):
     order_items = OrderItemListSerializer(read_only=True, many=True)
 
     class Meta(OrderBaseSerializer.Meta):
-        fields = OrderBaseSerializer.Meta.fields + ("order_items",)
+        fields = OrderBaseSerializer.Meta.fields + (
+            "order_items",
+            "order_total",
+            "additional_discount",
+            "grand_total",
+        )
         read_only_fields = OrderBaseSerializer.Meta.read_only_fields + (
             "order_total",
             "additional_discount",
