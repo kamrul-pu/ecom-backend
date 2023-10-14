@@ -75,8 +75,15 @@ class AdminOrderDetailSerializer(OrderBaseSerializer):
         )
         read_only_fields = OrderBaseSerializer.Meta.read_only_fields + (
             "order_total",
-            "additional_discount",
             "grand_total",
             "created_at",
             "updated_at",
         )
+
+    def update(self, instance, validated_data):
+        user = self.context.get("request").user
+        instance.grand_total = instance.order_total - validated_data.get(
+            "additional_discount", 0.00
+        )
+        instance.updated_by_id = user.id
+        return super().update(instance, validated_data)
