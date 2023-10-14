@@ -23,6 +23,7 @@ urlpatterns = [
     path("api/v1/token/verify", TokenVerifyView.as_view(), name="token_verify"),
     # Product related urls
     path("api/v1/product", include("product.rest.urls.base"), name="product-base-urls"),
+    path("api/v1/orders", include("order.rest.urls.base"), name="order-base-urls"),
 ]
 
 if settings.DEBUG:
