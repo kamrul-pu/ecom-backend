@@ -1,11 +1,14 @@
 """Views for Product Model"""
 
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from core.permissions import (
     IsAdminUser,
     IsSuperAdmin,
     IsAuthenticatedOrReadOnly,
+    IsAdminUserOrReadOnly,
 )
 
 from product.models import Product
@@ -20,7 +23,18 @@ class ProductList(ListCreateAPIView):
     serializer_class = ProductListSerializer
     queryset = Product().get_all_actives()
 
-    permission_classes = (IsAdminUser | IsSuperAdmin | IsAuthenticatedOrReadOnly,)
+    filter_backends = (
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    )
+    filterset_fields = (
+        "category",
+        "brand",
+        "manufacturer",
+        "name",
+    )
+
+    permission_classes = (IsAdminUser | IsSuperAdmin | IsAdminUserOrReadOnly,)
 
 
 class ProductDetail(RetrieveUpdateDestroyAPIView):
