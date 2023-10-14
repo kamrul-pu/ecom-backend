@@ -29,7 +29,7 @@ class OrderBaseSerializer(serializers.ModelSerializer):
 
 
 class OrderListSerializer(OrderBaseSerializer):
-    order_items = OrderItemListSerializer(read_only=True)
+    order_items = OrderItemListSerializer(read_only=True, many=True)
 
     class Meta(OrderBaseSerializer.Meta):
         fields = OrderBaseSerializer.Meta.fields + ("order_items",)

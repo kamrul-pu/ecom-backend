@@ -11,7 +11,7 @@ class OrderItemBaseSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "uid",
-            "product_id",
+            "product",
             "product_name",
         )
         read_only_fields = (

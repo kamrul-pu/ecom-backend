@@ -1,7 +1,7 @@
 """Views for Customer Cart."""
 
 from rest_framework import status
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,30 +13,15 @@ from order.choices import OrderType
 from order.rest.serializers.order import OrderListSerializer
 
 
-class CustomerCart(ListAPIView):
+class CustomerCart(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = OrderListSerializer
 
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        cart = (
-            Order()
-            .get_all_actives()
-            .filter(
-                customer_id=user.id,
-                order_type=OrderType.CART,
-            )
-            .prefetch_related(
-                "order_items",
-                "order_items__product",
-            )
+    def get_object(self):
+        user = self.request.user
+        cart, created = Order.objects.get_or_create(
+            customer_id=user.id,
+            order_type=OrderType.CART,
         )
-        if cart.exists():
-            serializer = self.serializer_class(cart, many=True)
-            cart = Order.objects.create(
-                customer_id=user.id,
-                order_type=OrderType.CART,
-            )
-            serializer = self.serializer_class(cart)
 
-        return Response({"result": serializer.data}, status=status.HTTP_200_OK)
+        return cart
