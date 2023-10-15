@@ -6,6 +6,7 @@ from core.permissions import (
     IsAdminUser,
     IsSuperAdmin,
     IsAuthenticatedOrReadOnly,
+    IsAdminUserOrReadOnly,
 )
 
 from product.models import Manufacturer
@@ -20,11 +21,11 @@ class ManufacturerList(ListCreateAPIView):
     serializer_class = ManufacturerListSerializer
     queryset = Manufacturer().get_all_actives()
 
-    permission_classes = (IsAdminUser | IsSuperAdmin | IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAdminUser | IsSuperAdmin | IsAdminUserOrReadOnly,)
 
 
 class ManufacturerDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = ManufacturerDetailSerializer
     queryset = Manufacturer().get_all_actives()
     lookup_field = "uid"
-    permission_classes = (IsSuperAdmin | IsAdminUser,)
+    permission_classes = (IsSuperAdmin | IsAdminUser | IsAdminUserOrReadOnly,)

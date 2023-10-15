@@ -61,16 +61,26 @@ class IsAuthenticatedOrReadOnly(BasePermission):
 
 class IsAdminUserOrReadOnly(BasePermission):
     def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
         return bool(
-            request.method in SAFE_METHODS
-            or (
-                request.user
-                and (
-                    request.user.kind == UserKind.ADMIN
-                    or request.user.kind == UserKind.SUPER_ADMIN
-                )
+            request.user
+            and hasattr(request.user, "kind")
+            and (
+                request.user.kind == UserKind.ADMIN
+                or request.user.kind == UserKind.SUPER_ADMIN
             )
         )
+        # return bool(
+        #     request.method in SAFE_METHODS
+        #     or (
+        #         request.user
+        #         and (
+        #             request.user.kind == UserKind.ADMIN
+        #             or request.user.kind == UserKind.SUPER_ADMIN
+        #         )
+        #     )
+        # )
 
 
 # class IsSuperAdmin(BasePermission):
