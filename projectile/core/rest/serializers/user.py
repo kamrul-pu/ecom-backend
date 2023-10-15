@@ -38,6 +38,7 @@ class UserListSerializer(serializers.ModelSerializer):
         read_only_fields = (
             "id",
             "uid",
+            "slug",
         )
 
     def validate_phone_number(self, value):
