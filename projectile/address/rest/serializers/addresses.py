@@ -27,7 +27,7 @@ class DivisionListSerializer(DivisionSerializer):
         fields = DivisionSerializer.Meta.fields + (
             "bengali_name",
             "latitude",
-            "longitude"
+            "longitude",
         )
         read_only_fields = DivisionSerializer.Meta.read_only_fields + ()
 
@@ -40,9 +40,9 @@ class DivisionDetailSerializer(DivisionSerializer):
             "longitude",
             "status",
             "created_at",
-            "updated_at"
+            "updated_at",
         )
         read_only_fields = DivisionSerializer.Meta.read_only_fields + (
             "created_at",
-            "updated_at"
+            "updated_at",
         )

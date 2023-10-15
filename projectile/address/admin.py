@@ -13,6 +13,7 @@ from address.models import (
 class AddressAdmin(admin.ModelAdmin):
     model = Address
     list_display = [
+        "id",
         "uid",
         "label",
         "district",
@@ -25,6 +26,7 @@ class AddressAdmin(admin.ModelAdmin):
 class DistrictAdmin(admin.ModelAdmin):
     model = District
     list_display = (
+        "id",
         "uid",
         "name",
     )
@@ -34,6 +36,7 @@ class DistrictAdmin(admin.ModelAdmin):
 class DivisionAdmin(admin.ModelAdmin):
     model = Division
     list_display = (
+        "id",
         "uid",
         "name",
     )
@@ -43,6 +46,7 @@ class DivisionAdmin(admin.ModelAdmin):
 class UpazilaAdmin(admin.ModelAdmin):
     model = District
     list_display = (
+        "id",
         "uid",
         "name",
     )
