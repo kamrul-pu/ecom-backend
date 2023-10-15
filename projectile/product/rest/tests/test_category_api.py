@@ -27,7 +27,7 @@ class CategoryApiTest(BaseTest):
         )
         self.assertIn("image", response.data)
 
-        return response.data["uid"]
+        return {"id": response.data["id"], "uid": response.data["uid"]}
 
     def test_get_category_list(self):
         self.test_create_category()
@@ -46,7 +46,7 @@ class CategoryApiTest(BaseTest):
         self.assertIn("image", checked_data)
 
     def test_get_category_detail(self):
-        uid = self.test_create_category()
+        uid = self.test_create_category()["uid"]
 
         # Get category detail data and assert response
         response = self.client.get(urlhelpers.get_category_detail_update_url(uid))
@@ -60,7 +60,7 @@ class CategoryApiTest(BaseTest):
         self.assertIn("image", response.data)
 
     def test_update_category(self):
-        uid = self.test_create_category()
+        uid = self.test_create_category()["uid"]
         updated_category_payload = payloads.category_update_payload()
 
         # Update category data and assert response
