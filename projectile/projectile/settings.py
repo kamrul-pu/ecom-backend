@@ -64,6 +64,9 @@ THIRD_PARTY_APPS = [
 if ENABLE_SILK:
     THIRD_PARTY_APPS += ["silk"]
 
+if DEBUG:
+    THIRD_PARTY_APPS += ["drf_spectacular"]
+
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -232,6 +235,7 @@ REST_FRAMEWORK = {
     #     "rest_framework.renderers.MultiPartRenderer",
     #     "rest_framework.renderers.JSONRenderer",
     # ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_THROTTLE_RATES": {"anon": "300/minute", "user": "1200/minute"},
     # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -247,4 +251,13 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": True,
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
+}
+
+# Spectacular Documentation settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Ecom Backend",
+    "DESCRIPTION": "This is a single vendor ecommerce project",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
 }
