@@ -28,7 +28,7 @@ class ManufacturerApiTest(BaseTest):
         )
         self.assertIn("logo", response.data)
 
-        return response.data["uid"]
+        return {"id": response.data["id"], "uid": response.data["uid"]}
 
     def test_get_manufacturer_list(self):
         self.test_create_manufacturer()
@@ -48,7 +48,7 @@ class ManufacturerApiTest(BaseTest):
         self.assertIn("logo", checked_data)
 
     def test_get_manufacturer_detail(self):
-        uid = self.test_create_manufacturer()
+        uid = self.test_create_manufacturer()["uid"]
 
         # Get manufacturer detail data and assert response
         response = self.client.get(urlhelpers.get_manufacturer_detail_update_url(uid))
@@ -63,7 +63,7 @@ class ManufacturerApiTest(BaseTest):
         self.assertIn("logo", response.data)
 
     def test_update_manufacturer(self):
-        uid = self.test_create_manufacturer()
+        uid = self.test_create_manufacturer()["uid"]
         updated_manufacturer_payload = payloads.manufacturer_update_payload()
 
         # Update manufacturer data and assert response

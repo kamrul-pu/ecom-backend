@@ -28,7 +28,7 @@ class BrandApiTest(BaseTest):
         )
         self.assertIn("image", response.data)
 
-        return response.data["uid"]
+        return {"id": response.data["id"], "uid": response.data["uid"]}
 
     def test_get_brand_list(self):
         self.test_create_brand()
@@ -46,7 +46,7 @@ class BrandApiTest(BaseTest):
         self.assertIn("image", checked_data)
 
     def test_get_brand_detail(self):
-        uid = self.test_create_brand()
+        uid = self.test_create_brand()["uid"]
 
         # Get brand detail data and assert response
         response = self.client.get(urlhelpers.get_brand_detail_update_url(uid))
@@ -61,7 +61,7 @@ class BrandApiTest(BaseTest):
         self.assertIn("image", response.data)
 
     def test_update_brand(self):
-        uid = self.test_create_brand()
+        uid = self.test_create_brand()["uid"]
         updated_brand_payload = payloads.brand_update_payload()
 
         # Update brand data and assert response

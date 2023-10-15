@@ -23,3 +23,11 @@ def get_manufacturer_list_create_url():
 
 def get_manufacturer_detail_update_url(uid: str):
     return reverse("manufacturer-details", args=[uid])
+
+
+def get_product_list_create_url():
+    return reverse("product-list-create")
+
+
+def get_product_detail_update_url(uid: str):
+    return reverse("product-details", args=[uid])
