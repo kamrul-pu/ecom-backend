@@ -1,4 +1,4 @@
-"""Serializers for Address App."""
+"""Serializers for Address App division model."""
 
 from rest_framework import serializers
 

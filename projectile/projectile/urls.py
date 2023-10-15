@@ -26,7 +26,9 @@ urlpatterns = [
         "api/v1/products", include("product.rest.urls.base"), name="product-base-urls"
     ),
     path("api/v1/orders", include("order.rest.urls.base"), name="order-base-urls"),
-    path("api/v1/addresses", include("address.rest.urls.addresses"), name="address-base-urls"),
+    path(
+        "api/v1/addresses", include("address.rest.urls.base"), name="address-base-urls"
+    ),
 ]
 
 if settings.DEBUG:

@@ -4,7 +4,10 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import AllowAny
 
 from address.models import Division
-from address.rest.serializers.addresses import DivisionListSerializer, DivisionDetailSerializer
+from address.rest.serializers.division import (
+    DivisionListSerializer,
+    DivisionDetailSerializer,
+)
 
 from core.permissions import (
     IsSuperAdmin,
@@ -18,14 +21,13 @@ class DivisionList(ListCreateAPIView):
     permission_classes = (AllowAny,)
 
     def get_permissions(self):
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             return [
                 AllowAny(),
             ]
         else:
             return [
-                IsSuperAdmin() or
-                IsAdminUser(),
+                IsSuperAdmin() or IsAdminUser(),
             ]
 
 
@@ -35,12 +37,11 @@ class DivisionDetail(RetrieveUpdateDestroyAPIView):
     lookup_field = "uid"
 
     def get_permissions(self):
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             return [
                 AllowAny(),
             ]
         else:
             return [
-                IsSuperAdmin() or
-                IsAdminUser(),
+                IsSuperAdmin() or IsAdminUser(),
             ]
