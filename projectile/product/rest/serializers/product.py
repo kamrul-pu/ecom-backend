@@ -13,9 +13,6 @@ class ProductBaseSerializer(serializers.ModelSerializer):
             "uid",
             "slug",
             "name",
-            "brand",
-            "category",
-            "manufacturer",
             "buying_price",
             "mrp",
             "discount",
@@ -34,8 +31,26 @@ class ProductBaseSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(ProductBaseSerializer):
+    brand_name = serializers.CharField()
+    category_name = serializers.CharField()
+    manufacturer_name = serializers.CharField()
+
     class Meta(ProductBaseSerializer.Meta):
-        fields = ProductBaseSerializer.Meta.fields + ()
+        fields = ProductBaseSerializer.Meta.fields + (
+            "brand_name",
+            "category_name",
+            "manufacturer_name",
+        )
+        read_only_fields = ProductBaseSerializer.Meta.read_only_fields + ()
+
+
+class ProductPostSerializer(ProductBaseSerializer):
+    class Meta(ProductBaseSerializer.Meta):
+        fields = ProductBaseSerializer.Meta.fields + (
+            "brand",
+            "category",
+            "manufacturer",
+        )
         read_only_fields = ProductBaseSerializer.Meta.read_only_fields + ()
 
     def create(self, validated_data):
@@ -50,6 +65,9 @@ class ProductListSerializer(ProductBaseSerializer):
 class ProductDetailSerializer(ProductBaseSerializer):
     class Meta(ProductBaseSerializer.Meta):
         fields = ProductBaseSerializer.Meta.fields + (
+            "brand",
+            "category",
+            "manufacturer",
             "entry_by",
             "updated_by",
             "created_at",
