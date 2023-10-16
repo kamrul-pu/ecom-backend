@@ -4,7 +4,10 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import AllowAny
 
 from address.models import District
-from address.rest.serializers.district import DistrictListSerializer
+from address.rest.serializers.district import (
+    DistrictListSerializer,
+    DistrictPostSerializer,
+)
 
 from core.permissions import (
     IsSuperAdmin,
@@ -13,7 +16,6 @@ from core.permissions import (
 
 
 class DistrictList(ListCreateAPIView):
-    serializer_class = DistrictListSerializer
     queryset = District().get_all_actives().order_by("name")
     permission_classes = (AllowAny,)
 
@@ -27,6 +29,12 @@ class DistrictList(ListCreateAPIView):
                 IsSuperAdmin() or IsAdminUser(),
             ]
 
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return DistrictListSerializer
+        else:
+            return DistrictPostSerializer
+
     def get_queryset(self):
         division = self.request.query_params.get("division", None)
         queryset = self.queryset
@@ -38,7 +46,6 @@ class DistrictList(ListCreateAPIView):
 
 
 class DistrictDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = DistrictListSerializer
     queryset = District().get_all_actives().order_by("name")
     lookup_field = "uid"
 
@@ -51,3 +58,9 @@ class DistrictDetail(RetrieveUpdateDestroyAPIView):
             return [
                 IsSuperAdmin() or IsAdminUser(),
             ]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return DistrictListSerializer
+        else:
+            return DistrictPostSerializer

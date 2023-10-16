@@ -4,7 +4,10 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import AllowAny
 
 from address.models import Upazila
-from address.rest.serializers.upazila import UpazilaListSerializer
+from address.rest.serializers.upazila import (
+    UpazilaListSerializer,
+    UpazilaPostSerializer
+)
 
 from core.permissions import (
     IsSuperAdmin,
@@ -13,7 +16,6 @@ from core.permissions import (
 
 
 class UpazilaList(ListCreateAPIView):
-    serializer_class = UpazilaListSerializer
     queryset = Upazila().get_all_actives().order_by("name")
     permission_classes = (AllowAny,)
 
@@ -27,6 +29,12 @@ class UpazilaList(ListCreateAPIView):
                 IsSuperAdmin() or IsAdminUser(),
             ]
 
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return UpazilaListSerializer
+        else:
+            return UpazilaPostSerializer
+
     def get_queryset(self):
         district = self.request.query_params.get("district", None)
         queryset = self.queryset
@@ -38,7 +46,6 @@ class UpazilaList(ListCreateAPIView):
 
 
 class UpazilaDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = UpazilaListSerializer
     queryset = Upazila().get_all_actives().order_by("name")
     lookup_field = "uid"
 
@@ -51,3 +58,9 @@ class UpazilaDetail(RetrieveUpdateDestroyAPIView):
             return [
                 IsSuperAdmin() or IsAdminUser(),
             ]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return UpazilaListSerializer
+        else:
+            return UpazilaPostSerializer

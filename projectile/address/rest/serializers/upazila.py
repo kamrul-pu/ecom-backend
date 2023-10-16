@@ -12,9 +12,6 @@ class UpazilaSerializer(serializers.ModelSerializer):
             "id",
             "uid",
             "name",
-            "bengali_name",
-            "latitude",
-            "longitude",
         )
         read_only_fields = (
             "id",
@@ -24,7 +21,17 @@ class UpazilaSerializer(serializers.ModelSerializer):
 
 class UpazilaListSerializer(UpazilaSerializer):
     class Meta(UpazilaSerializer.Meta):
+        fields = UpazilaSerializer.Meta.fields + ()
+
+        read_only_fields = UpazilaSerializer.Meta.read_only_fields + ()
+
+
+class UpazilaPostSerializer(UpazilaSerializer):
+    class Meta(UpazilaSerializer.Meta):
         fields = UpazilaSerializer.Meta.fields + (
+            "bengali_name",
+            "latitude",
+            "longitude",
             "district",
             "division",
         )
