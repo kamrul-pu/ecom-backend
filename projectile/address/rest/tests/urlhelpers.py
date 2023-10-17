@@ -19,3 +19,11 @@ def get_division_list_create_url():
 
 def get_division_detail_update_url(uid: str):
     return reverse("division-detail", args=[uid])
+
+
+def get_district_list_create_url():
+    return reverse("district-list")
+
+
+def get_district_detail_update_url(uid: str):
+    return reverse("district-detail", args=[uid])
