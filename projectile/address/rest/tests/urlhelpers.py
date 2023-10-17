@@ -27,3 +27,11 @@ def get_district_list_create_url():
 
 def get_district_detail_update_url(uid: str):
     return reverse("district-detail", args=[uid])
+
+
+def get_upazila_list_create_url():
+    return reverse("upazila-list")
+
+
+def get_upazila_detail_update_url(uid: str):
+    return reverse("upazila-detail", args=[uid])

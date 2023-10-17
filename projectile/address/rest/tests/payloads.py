@@ -60,3 +60,22 @@ def district_update_payload():
         "latitude": faker.latitude(),
         "division": create_division(name="Update Division").id,
     }
+
+
+def upazila_create_payload():
+    return {
+        "name": faker.word(),
+        "bengali_name": faker.word(),
+        "latitude": faker.latitude(),
+        "longitude": faker.longitude(),
+        "division": create_division().id,
+        "district": create_district().id,
+    }
+
+
+def upazila_update_payload():
+    return {
+        "name": faker.word(),
+        "latitude": faker.latitude(),
+        "district": create_district(name="Update District").id,
+    }
