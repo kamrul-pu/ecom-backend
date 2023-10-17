@@ -25,3 +25,20 @@ def address_update_payload():
         "house_street": faker.street_address(),
         "upazila": create_upazila(name="Update Upazila").id,
     }
+
+
+def division_create_payload():
+    return {
+        "name": faker.word(),
+        "bengali_name": faker.word(),
+        "latitude": faker.latitude(),
+        "longitude": faker.longitude(),
+    }
+
+
+def division_update_payload():
+    return {
+        "name": faker.word(),
+        "latitude": faker.latitude(),
+        "longitude": faker.longitude(),
+    }
