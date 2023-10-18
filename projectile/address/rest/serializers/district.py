@@ -15,10 +15,6 @@ class DistrictSerializer(serializers.ModelSerializer):
             "id",
             "uid",
             "name",
-            "bengali_name",
-            "latitude",
-            "longitude",
-            "division",
         )
         read_only_fields = (
             "id",
@@ -29,5 +25,17 @@ class DistrictSerializer(serializers.ModelSerializer):
 class DistrictListSerializer(DistrictSerializer):
     class Meta(DistrictSerializer.Meta):
         fields = DistrictSerializer.Meta.fields + ()
+
+        read_only_fields = DistrictSerializer.Meta.read_only_fields + ()
+
+
+class DistrictPostSerializer(DistrictSerializer):
+    class Meta(DistrictSerializer.Meta):
+        fields = DistrictSerializer.Meta.fields + (
+            "bengali_name",
+            "latitude",
+            "longitude",
+            "division",
+        )
 
         read_only_fields = DistrictSerializer.Meta.read_only_fields + ()

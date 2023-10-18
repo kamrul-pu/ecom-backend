@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny
 from address.models import Division
 from address.rest.serializers.division import (
     DivisionListSerializer,
-    DivisionDetailSerializer,
+    DivisionPostSerializer,
 )
 
 from core.permissions import (
@@ -16,7 +16,6 @@ from core.permissions import (
 
 
 class DivisionList(ListCreateAPIView):
-    serializer_class = DivisionListSerializer
     queryset = Division().get_all_actives().order_by("name")
     permission_classes = (AllowAny,)
 
@@ -30,9 +29,14 @@ class DivisionList(ListCreateAPIView):
                 IsSuperAdmin() or IsAdminUser(),
             ]
 
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return DivisionListSerializer
+        else:
+            return DivisionPostSerializer
+
 
 class DivisionDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = DivisionDetailSerializer
     queryset = Division().get_all_actives().order_by("name")
     lookup_field = "uid"
 
@@ -45,3 +49,9 @@ class DivisionDetail(RetrieveUpdateDestroyAPIView):
             return [
                 IsSuperAdmin() or IsAdminUser(),
             ]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return DivisionListSerializer
+        else:
+            return DivisionPostSerializer
