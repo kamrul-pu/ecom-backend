@@ -14,12 +14,16 @@ django-autoslug==1.9.9
 django-cleanup==8.0.0
 django-cors-headers==4.3.0
 django-dotenv==1.4.2
+django-elasticsearch-dsl==8.0
 django-filter==23.3
 django-silk==5.0.4
 django-versatileimagefield==3.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.0
 drf-spectacular==0.26.5
+elastic-transport==8.4.1
+elasticsearch==8.10.1
+elasticsearch-dsl==8.9.0
 Faker==19.9.0
 frozenlist==1.4.0
 gprof2dot==2022.7.29
@@ -49,5 +53,5 @@ sqlparse==0.4.4
 tqdm==4.66.1
 twilio==8.10.0
 uritemplate==4.1.1
-urllib3==2.0.6
+urllib3==1.26.18
 yarl==1.9.2

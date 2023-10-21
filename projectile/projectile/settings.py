@@ -51,16 +51,18 @@ PROJECT_APPS = [
     "core",
     "common",
     "order",
-    "product",
     "otp",
+    "product",
+    "search",
 ]
 THIRD_PARTY_APPS = [
+    "corsheaders",
+    "django_filters",
+    "django_elasticsearch_dsl",
+    "django_cleanup.apps.CleanupConfig",
     "rest_framework",
     "rest_framework_simplejwt",
     "versatileimagefield",
-    "django_cleanup.apps.CleanupConfig",
-    "django_filters",
-    "corsheaders",
 ]
 
 if ENABLE_SILK:
@@ -74,7 +76,7 @@ INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -275,3 +277,23 @@ CORS_ALLOWED_ORIGINS = [
 TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "")
 TWILIO_PHONE_NUMBER = os.environ.get("TWILIO_PHONE_NUMBER", "")
+
+# Elastic Search
+# ES_INDEX_SETTINGS = {
+#     "number_of_shards": 1,
+#     "number_of_replicas": 0,
+# }
+
+ELASTICSEARCH_DSL = {
+    "default": {
+        "hosts": "http://127.0.0.1:9200",
+    },
+}
+
+
+# ES_PAGINATION_SIZE = 1000
+# ES_MAX_PAGINATION_SIZE = 10000
+# ES_CUSTOM_DOC_CHUNK_SIZE = 10000
+# ES_DEFAULT_DOC_CHUNK_SIZE = 1000
+# ELASTICSEARCH_DSL_PARALLEL = False
+# ELASTICSEARCH_DSL_PARALLEL_CACHE_PREFIX = "elastic_search_record"
