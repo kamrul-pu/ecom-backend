@@ -52,7 +52,7 @@ PROJECT_APPS = [
     "common",
     "order",
     "product",
-    "otp"
+    "otp",
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
