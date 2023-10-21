@@ -1,9 +1,23 @@
 """Document for product related models."""
 
-from django_elasticsearch_dsl import Document, fields
+from django_elasticsearch_dsl import Document, fields, Index
 from django_elasticsearch_dsl.registries import registry
 
-from product.models import Product
+from product.models import Category, Product
+
+
+@registry.register_document
+class CategoryDocument(Document):
+    class Index:
+        name = "ecom_category"
+
+    class Django:
+        model = Category
+        fields = [
+            "id",
+            "uid",
+            "name",
+        ]
 
 
 @registry.register_document
@@ -28,11 +42,11 @@ class ProductDocument(Document):
     rating = fields.DoubleField()
 
     class Index:
-        name = "products"
-        settings = {
-            "number_of_shards": 1,
-            "number_of_replicas": 0,
-        }
+        name = "ecom_products"
+        # settings = {
+        #     "number_of_shards": 1,
+        #     "number_of_replicas": 0,
+        # }
 
     class Django:
         model = Product
@@ -50,6 +64,7 @@ class ProductDocument(Document):
             "image",
             "rating",
         ]
+        related_models = [Category]
 
     def get_queryset(self, filters={}, orders=["-pk"]):
         queryset = super().get_queryset().select_related("category")
