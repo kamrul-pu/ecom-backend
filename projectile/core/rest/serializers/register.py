@@ -64,6 +64,3 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             user.save()
 
             return user
-
-
-

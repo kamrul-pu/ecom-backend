@@ -17,7 +17,7 @@ urlpatterns = [
     # user related urls
     path("api/v1/users", include("core.rest.urls.users")),
     path("api/v1/me", include("core.rest.urls.me")),
-    path("api/v1/auth", include("core.rest.urls.register")),
+    path("api/v1/auth", include("core.rest.urls.auth")),
     # include jwt authentication
     path("api/v1/token", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/v1/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
