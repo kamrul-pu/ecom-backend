@@ -35,3 +35,14 @@ class UserStatus(TextChoices):
     DRAFT = "DRAFT", "Draft"
     INACTIVE = "INACTIVE", "Inactive"
     REMOVED = "REMOVED", "Removed"
+
+
+class ResetStatus(TextChoices):
+    FAILED = "FAILED", "Failed"
+    SUCCESS = "SUCCESS", "Success"
+    PENDING = "PENDING", "Pending"
+
+
+class ResetType(TextChoices):
+    SELF = "SELF", "Self"
+    MANUAL = "MANUAL", "Manual"

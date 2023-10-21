@@ -1,27 +1,22 @@
 """Core models for our app."""
 
-import uuid
-
-from django.db import models
-from django.conf import settings
+from autoslug import AutoSlugField
 
 from django.contrib.auth.base_user import (
     BaseUserManager,
 )
-
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
-
-from autoslug import AutoSlugField
+from django.db import models
 
 from versatileimagefield.fields import VersatileImageField
 
-from core.choices import UserKind, UserStatus, UserGender
-from core.utils import get_user_media_path_prefix
+from common.models import BaseModelWithUID, NameSlugDescriptionBaseModel
 
-from common.models import BaseModelWithUID
+from core.choices import UserKind, UserStatus, UserGender, ResetStatus, ResetType
+from core.utils import get_user_media_path_prefix
 
 
 class UserManager(BaseUserManager):
@@ -113,3 +108,41 @@ class User(AbstractBaseUser, BaseModelWithUID, PermissionsMixin):
     class Meta:
         verbose_name = "System User"
         verbose_name_plural = "System Users"
+
+
+class PasswordReset(NameSlugDescriptionBaseModel):
+    user = models.ForeignKey(
+        "core.User",
+        models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="password_reset_users"
+    )
+    phone = models.CharField(
+        max_length=24,
+        db_index=True
+    )
+    reset_status = models.CharField(
+        max_length=20,
+        choices=ResetStatus.choices,
+        default=ResetStatus.PENDING
+    )
+    otp = models.ForeignKey(
+        "otp.OTP",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="password_reset_otps"
+    )
+    type = models.CharField(
+        max_length=20,
+        choices=ResetType.choices,
+        default=ResetType.SELF
+    )
+
+    class Meta:
+        verbose_name_plural = "PasswordReset"
+
+    def __str__(self):
+        return f"{self.phone} - {self.reset_status}"
+
