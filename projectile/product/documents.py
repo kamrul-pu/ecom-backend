@@ -43,7 +43,6 @@ class ProductDocument(Document):
     # discounted_price = fields.DoubleField()
     # stock = fields.IntegerField()
     # image = fields.TextField()
-    image = json.dumps(str(fields.TextField()))
     # rating = fields.DoubleField()
 
     class Index:
