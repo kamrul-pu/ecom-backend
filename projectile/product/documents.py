@@ -1,6 +1,8 @@
 """Document for product related models."""
 
-from django_elasticsearch_dsl import Document, fields, Index
+import json
+
+from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
 
 from product.models import Category, Product
@@ -19,14 +21,16 @@ class CategoryDocument(Document):
             "name",
         ]
 
+    def get_queryset(self):
+        return Category().get_all_actives()
+
 
 @registry.register_document
 class ProductDocument(Document):
     id = fields.KeywordField()
     uid = fields.KeywordField()
-    name = fields.TextField()
     slug = fields.KeywordField()
-    description = fields.TextField()
+
     category = fields.ObjectField(
         properties={
             "id": fields.IntegerField(),
@@ -34,12 +38,13 @@ class ProductDocument(Document):
             "name": fields.TextField(),
         }
     )
-    mrp = fields.DoubleField()
-    discount = fields.DoubleField()
-    discounted_price = fields.DoubleField()
-    stock = fields.IntegerField()
-    image = fields.TextField()
-    rating = fields.DoubleField()
+    # mrp = fields.DoubleField()
+    # discount = fields.DoubleField()
+    # discounted_price = fields.DoubleField()
+    # stock = fields.IntegerField()
+    # image = fields.TextField()
+    image = json.dumps(str(fields.TextField()))
+    # rating = fields.DoubleField()
 
     class Index:
         name = "ecom_products"
@@ -51,21 +56,17 @@ class ProductDocument(Document):
     class Django:
         model = Product
         fields = [
-            "id",
-            "uid",
+            # "id",
+            # "uid",
             "name",
-            "slug",
             "description",
-            "category",
             "mrp",
             "discount",
             "discounted_price",
             "stock",
-            "image",
             "rating",
         ]
         related_models = [Category]
 
-    def get_queryset(self, filters={}, orders=["-pk"]):
-        queryset = super().get_queryset().select_related("category")
-        return queryset
+    def get_queryset(self):
+        return Product().get_all_actives().select_related("category")
