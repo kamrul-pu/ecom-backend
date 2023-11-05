@@ -5,6 +5,7 @@ import decimal
 from django.db import transaction
 from django.db.models import Q, Sum, Value, F
 from django.db.models.functions import Coalesce
+from django.shortcuts import get_object_or_404
 
 from common.choices import Status
 
@@ -31,7 +32,7 @@ def calculate_cart_total(cart):
 
 
 @transaction.atomic
-def update_cart(cart_items, user):
+def create_cart(cart_items, user):
     product_quantity_dict = {
         item["product_id"]: item["quantity"]
         for item in cart_items
@@ -55,12 +56,8 @@ def update_cart(cart_items, user):
         order_type=OrderType.CART,
         status=Status.ACTIVE,
     )
-    items_to_be_removed = []
     cart_items_to_create = []
-    cart_items_to_update = []
 
-    # Delete All existing cart items
-    OrderItem().get_all_actives().filter(order_id=cart.id).delete()
     cart_total = 0
     for product in products:
         quantity = product_quantity_dict.get(product.id)
@@ -84,10 +81,41 @@ def update_cart(cart_items, user):
     # Calculate Cart total
     # calculate_cart_total(cart)
     cart.order_total = cart_total
-    cart.grand_total = cart_total - cart.additional_discount
+    cart.grand_total = cart_total - decimal.Decimal(cart.additional_discount)
     cart.save(update_fields=["order_total", "grand_total"])
 
     return {
         "cart": cart,
         "cart_items": cart_items,
     }
+
+
+def update_cart(product_id, quantity, user_id):
+    cart, created = Order.objects.get_or_create(
+        customer_id=user_id,
+        order_type=OrderType.CART,
+        status=Status.ACTIVE,
+    )
+    product = get_object_or_404(Product, id=product_id)
+
+    cart_item, created = OrderItem.objects.get_or_create(
+        order_id=cart.id,
+        product_id=product_id,
+        defaults={
+            "quantity": quantity,
+            "product_name": product.name,
+            "price": product.discounted_price,
+            "total": product.discounted_price * quantity,
+        },
+    )
+    if not created:
+        cart_item.quantity = quantity
+        cart_item.price = product.discounted_price
+        cart_item.total = product.discounted_price * quantity
+        cart_item.save(update_fields=["quantity", "price", "total"])
+    # if quantity is zero then remove the product
+    if quantity < 1:
+        cart_item.delete()
+    # Update cart total
+    calculate_cart_total(cart=cart)
+    return cart_item

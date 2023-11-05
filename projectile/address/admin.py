@@ -9,7 +9,6 @@ from address.models import (
 
 
 # Register your models here.
-@admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     model = Address
     list_display = [
@@ -22,7 +21,9 @@ class AddressAdmin(admin.ModelAdmin):
     readonly_fields = ("uid",)
 
 
-@admin.register(District)
+admin.site.register(Address, AddressAdmin)
+
+
 class DistrictAdmin(admin.ModelAdmin):
     model = District
     list_display = (
@@ -32,7 +33,9 @@ class DistrictAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Division)
+admin.site.register(District, DistrictAdmin)
+
+
 class DivisionAdmin(admin.ModelAdmin):
     model = Division
     list_display = (
@@ -42,7 +45,9 @@ class DivisionAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Upazila)
+admin.site.register(Division, DivisionAdmin)
+
+
 class UpazilaAdmin(admin.ModelAdmin):
     model = District
     list_display = (
@@ -50,3 +55,6 @@ class UpazilaAdmin(admin.ModelAdmin):
         "uid",
         "name",
     )
+
+
+admin.site.register(Upazila, UpazilaAdmin)
