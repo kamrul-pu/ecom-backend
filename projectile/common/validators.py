@@ -6,28 +6,37 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+country_codes = {
+    "+61": "Australia",
+    "+880": "Bangladesh",
+    "+49": "Germany",
+    "+91": "India",
+    "+46": "Sweden",
+    "+44": "United Kingdom",
+    "+1": "United States",
+}
+
 
 def validate_phone_number_with_and_without_country_code(phone):
-
     error = "INCORRECT_MOBILE_NUMBER"
 
     # country_codes = get_json_data_from_file('tmp/country-code.json')
-    with open('tmp/country-code.json', 'r') as file:
-        country_codes = json.load(file)
+    # with open("tmp/country-code.json", "r") as file:
+    #     country_codes = json.load(file)
 
     # Check if the phone number matches the format with a country code or without
-    if not (re.match(r'^\+\d{3}[0-9]{10}$', phone) or re.match(r'^0[0-9]{10}$', phone)):
+    if not (re.match(r"^\+\d{3}[0-9]{10}$", phone) or re.match(r"^0[0-9]{10}$", phone)):
         raise ValidationError(error)
 
     # If the phone number starts with '+', extract the country code
-    if phone[0] == '+':
-        match = re.match(r'^(\+\d{3})[0-9]{10}$', phone)
+    if phone[0] == "+":
+        match = re.match(r"^(\+\d{3})[0-9]{10}$", phone)
         if not match:
             raise ValidationError(error)
         country_code = match.group(1)
 
         # get the phone number without the country code and adding '0' at the beginning
-        phone = '0' + phone[len(country_code):]
+        phone = "0" + phone[len(country_code) :]
 
         # Check if the country code exists in the dictionary
         if country_code not in country_codes:
@@ -35,8 +44,6 @@ def validate_phone_number_with_and_without_country_code(phone):
 
     # Check if the phone number is already registered
     if User().get_all_actives().filter(phone_number=phone).exists():
-        raise ValidationError(
-            "This phone number is already registered."
-        )
+        raise ValidationError("This phone number is already registered.")
 
     return phone
