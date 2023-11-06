@@ -1,28 +1,24 @@
+import os
 import json
 import re
 from rest_framework.exceptions import ValidationError
 
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 User = get_user_model()
-
-country_codes = {
-    "+61": "Australia",
-    "+880": "Bangladesh",
-    "+49": "Germany",
-    "+91": "India",
-    "+46": "Sweden",
-    "+44": "United Kingdom",
-    "+1": "United States",
-}
 
 
 def validate_phone_number_with_and_without_country_code(phone):
     error = "INCORRECT_MOBILE_NUMBER"
+    file_path = os.path.join(
+        settings.REPO_DIR,
+        "projectile/tmp/country-code.json",
+    )
 
     # country_codes = get_json_data_from_file('tmp/country-code.json')
-    # with open("tmp/country-code.json", "r") as file:
-    #     country_codes = json.load(file)
+    with open(file_path, "r", encoding="utf-8") as f:
+        country_codes = json.load(f)
 
     # Check if the phone number matches the format with a country code or without
     if not (re.match(r"^\+\d{3}[0-9]{10}$", phone) or re.match(r"^0[0-9]{10}$", phone)):
