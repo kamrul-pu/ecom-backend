@@ -31,9 +31,9 @@ class ProductBaseSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(ProductBaseSerializer):
-    brand_name = serializers.CharField()
-    category_name = serializers.CharField()
-    manufacturer_name = serializers.CharField()
+    brand_name = serializers.CharField(read_only=True)
+    category_name = serializers.CharField(read_only=True)
+    manufacturer_name = serializers.CharField(read_only=True)
 
     class Meta(ProductBaseSerializer.Meta):
         fields = ProductBaseSerializer.Meta.fields + (

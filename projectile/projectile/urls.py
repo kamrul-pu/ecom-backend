@@ -29,6 +29,8 @@ urlpatterns = [
     path(
         "api/v1/addresses", include("address.rest.urls.base"), name="address-base-urls"
     ),
+    # Search endpoints
+    path("api/v1/search", include("search.rest.urls.base"), name="search-base-urls"),
 ]
 
 if settings.DEBUG:
