@@ -236,10 +236,10 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.UserRateThrottle",
     ],
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
-    # "TEST_REQUEST_RENDERER_CLASSES": [
-    #     "rest_framework.renderers.MultiPartRenderer",
-    #     "rest_framework.renderers.JSONRenderer",
-    # ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_THROTTLE_RATES": {"anon": "300/minute", "user": "1200/minute"},
     # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
