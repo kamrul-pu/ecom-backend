@@ -15,7 +15,7 @@ from product.models import Product
 from product.rest.serializers.product import (
     ProductListSerializer,
     ProductDetailSerializer,
-    ProductPostSerializer
+    ProductPostSerializer,
 )
 
 

@@ -297,3 +297,12 @@ ELASTICSEARCH_DSL = {
 # ES_DEFAULT_DOC_CHUNK_SIZE = 1000
 # ELASTICSEARCH_DSL_PARALLEL = False
 # ELASTICSEARCH_DSL_PARALLEL_CACHE_PREFIX = "elastic_search_record"
+
+
+# Redis Caching
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
