@@ -278,11 +278,13 @@ TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "")
 TWILIO_PHONE_NUMBER = os.environ.get("TWILIO_PHONE_NUMBER", "")
 
+# Elastic Search related settings
+# ES_INDEX = "{}_{}".format("ecom", os.environ.get("USER", ""))
 # Elastic Search
-# ES_INDEX_SETTINGS = {
-#     "number_of_shards": 1,
-#     "number_of_replicas": 0,
-# }
+ES_INDEX_SETTINGS = {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+}
 
 ELASTICSEARCH_DSL = {
     "default": {
