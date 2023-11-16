@@ -1,6 +1,8 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 
+# from search.documents.product_document import ProductDocument
+
 from product.documents import ProductDocument
 from product.rest.serializers.product import ProductListSerializer
 
