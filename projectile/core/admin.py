@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from core.models import User, PasswordReset
+from core.models import User, PasswordReset, OTP
 
 
 class UserAdmin(BaseUserAdmin):
@@ -67,16 +67,23 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 
+class OTPAdmin(admin.ModelAdmin):
+    model = OTP
+    list_display = (
+        "id",
+        "otp",
+        "status",
+        "is_used",
+        "type",
+    )
+
+
+admin.site.register(OTP, OTPAdmin)
+
+
 class PasswordResetAdmin(admin.ModelAdmin):
     model = PasswordReset
-    list_display = [
-        "id",
-        "uid",
-        "user",
-        "phone",
-        "reset_status",
-        "type"
-    ]
+    list_display = ["id", "uid", "user", "phone", "reset_status", "type"]
     readonly_fields = ("uid",)
 
 

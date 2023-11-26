@@ -15,7 +15,14 @@ from versatileimagefield.fields import VersatileImageField
 
 from common.models import BaseModelWithUID, NameSlugDescriptionBaseModel
 
-from core.choices import UserKind, UserStatus, UserGender, ResetStatus, ResetType
+from core.choices import (
+    UserKind,
+    UserStatus,
+    UserGender,
+    ResetStatus,
+    ResetType,
+    OtpType,
+)
 from core.utils import get_user_media_path_prefix
 
 
@@ -110,34 +117,49 @@ class User(AbstractBaseUser, BaseModelWithUID, PermissionsMixin):
         verbose_name_plural = "System Users"
 
 
+# Create your models here.
+class OTP(BaseModelWithUID):
+    user = models.ForeignKey("core.User", models.DO_NOTHING, related_name="user_otps")
+    otp = models.CharField(
+        max_length=6,
+    )
+    type = models.CharField(
+        max_length=30,
+        choices=OtpType.choices,
+        default=OtpType.OTHER,
+    )
+    is_used = models.BooleanField(
+        default=False,
+    )
+
+    class Meta:
+        verbose_name_plural = "OTP"
+
+    def __str__(self):
+        return f"{self.otp} {self.is_used}"
+
+
 class PasswordReset(NameSlugDescriptionBaseModel):
     user = models.ForeignKey(
         "core.User",
         models.CASCADE,
         blank=True,
         null=True,
-        related_name="password_reset_users"
+        related_name="password_reset_users",
     )
-    phone = models.CharField(
-        max_length=24,
-        db_index=True
-    )
+    phone = models.CharField(max_length=24, db_index=True)
     reset_status = models.CharField(
-        max_length=20,
-        choices=ResetStatus.choices,
-        default=ResetStatus.PENDING
+        max_length=20, choices=ResetStatus.choices, default=ResetStatus.PENDING
     )
     otp = models.ForeignKey(
-        "otp.OTP",
+        "core.OTP",
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name="password_reset_otps"
+        related_name="password_reset_otps",
     )
     type = models.CharField(
-        max_length=20,
-        choices=ResetType.choices,
-        default=ResetType.SELF
+        max_length=20, choices=ResetType.choices, default=ResetType.SELF
     )
 
     class Meta:
@@ -145,4 +167,3 @@ class PasswordReset(NameSlugDescriptionBaseModel):
 
     def __str__(self):
         return f"{self.phone} - {self.reset_status}"
-

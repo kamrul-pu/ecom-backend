@@ -34,3 +34,10 @@ class UserPasswordResetSerializer(serializers.Serializer):
         allow_null=True,
         write_only=True,
     )
+
+    def validate_new_password(self, value):
+        _password = value
+        _confirm_password = self.initial_data.get("confirm_password", "")
+        if _password and _password != _confirm_password:
+            raise serializers.ValidationError({"detail": "Password does not match"})
+        return value

@@ -51,7 +51,6 @@ PROJECT_APPS = [
     "core",
     "common",
     "order",
-    "otp",
     "product",
     "search",
 ]
